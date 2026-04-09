@@ -19,7 +19,8 @@
 import { ref, watch, nextTick, onMounted } from 'vue'
 import VueMarkdown from 'vue-markdown-render'
 
-const API_BASE = 'http://127.0.0.1:8000'
+// 请求接口的服务端域名（或IP+端口）
+const API_BASE = 'http://192.168.2.125:8000'
 
 const messages = ref([])
 const input = ref('')
