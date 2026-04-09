@@ -83,13 +83,16 @@ async function send() {
     messages.value.push({ role: 'ai', text: '返回异常' })
   } finally {
     sending.value = false
+    scrollToBottom()
   }
 }
 
 async function scrollToBottom() {
   await nextTick()
   const el = messagesContainer.value
-  if (el) el.scrollTop = el.scrollHeight
+  if (el) {
+    el.scrollTop = el.scrollHeight
+  }
 }
 
 watch(messages, () => scrollToBottom())
