@@ -1,7 +1,7 @@
 <script setup>
-import Chat from './components/Chat.vue'
+// No need to import Chat here anymore, it's handled by router
 </script>
 
 <template>
-  <Chat />
+  <router-view />
 </template>
