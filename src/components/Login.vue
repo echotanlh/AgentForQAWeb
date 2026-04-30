@@ -19,8 +19,8 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { API_CONFIG, getApiUrl } from '../config'
 
-const BASE_URL = 'http://192.168.2.119:8000'
 const router = useRouter()
 const username = ref('')
 const password = ref('')
@@ -34,7 +34,7 @@ const handleLogin = async () => {
 
   loading.value = true
   try {
-    const response = await fetch(`${BASE_URL}/api/auth/login`, {
+    const response = await fetch(getApiUrl(API_CONFIG.AUTH.LOGIN), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

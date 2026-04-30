@@ -12,40 +12,18 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { API_CONFIG, getApiUrl } from '../config'
 
-const BASE_URL = 'http://192.168.2.119:8000'
 const router = useRouter()
 const showMenu = ref(false)
 const username = ref('')
 
 const firstLetter = computed(() => {
-  return username.value.charAt(0).toUpperCase()
+  return username.value ? username.value.charAt(0).toUpperCase() : 'U'
 })
 
 const toggleMenu = () => {
   showMenu.value = !showMenu.value
-}
-
-const handleLogout = async () => {
-  try {
-    const token = localStorage.getItem('token')
-    if (token) {
-      await fetch(`${BASE_URL}/api/auth/logout`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
-    }
-  } catch (error) {
-    console.error('登出错误:', error)
-  } finally {
-    localStorage.removeItem('isLoggedIn')
-    localStorage.removeItem('username')
-    localStorage.removeItem('email')
-    localStorage.removeItem('token')
-    router.push('/login')
-  }
 }
 
 const handleClickOutside = (event) => {
@@ -53,6 +31,24 @@ const handleClickOutside = (event) => {
   if (wrapper && !wrapper.contains(event.target)) {
     showMenu.value = false
   }
+}
+
+const handleLogout = async () => {
+  try {
+    const token = localStorage.getItem('token')
+    if (token) {
+      await fetch(getApiUrl(API_CONFIG.AUTH.LOGOUT), {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+    }
+  } catch (error) {
+    console.error('Logout failed:', error)
+  }
+  localStorage.removeItem('token')
+  router.push('/login')
 }
 
 onMounted(() => {
